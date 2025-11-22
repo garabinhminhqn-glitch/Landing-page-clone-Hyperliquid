@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Hyperliquid clone - Decentralized perpetual exchange with low fees and up to 40x leverage" />
+  <title>Hyperliquid — The Premier Decentralized Perpetual Exchange</title>
+  
+  <!-- Favicon (dùng tạm logo Hyperliquid) -->
+  <link rel="icon" href="https://hyperliquid.xyz/favicon.ico" type="image/x-icon">
+  
+  <!-- Google Fonts (Inter – font chính của Hyperliquid) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="container">
+      <a href="#" class="logo">
+        Hyper<span>liquid</span>
+      </a>
+
+      <!-- Search bar (tạm ẩn trên mobile) -->
+      <div class="search-box">
+        <input type="text" placeholder="Search tokens, pairs..." aria-label="Search" />
+        <svg viewBox="0 0 24 24" class="search-icon"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+      </div>
+
+      <nav class="nav-links">
+        <a href="#">Stats</a>
+        <a href="#">Docs</a>
+        <a href="#">Ecosystem</a>
+        <a href="https://app.hyperliquid.xyz" target="_blank" rel="noopener" class="launch-btn">
+          Launch App
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="container">
+        <h1>
+          The flagship application:<br>
+          the premier <span class="decent">D E C E N T R A L I S E D</span> exchange
+        </h1>
+        <p class="hero-subtitle">
+          Fully on-chain orderbook • Up to 40× leverage • Zero gas fees
+        </p>
+        <a href="https://app.hyperliquid.xyz" target="_blank" rel="noopener" class="cta-button">
+          Trade Now
+        </a>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features">
+      <div class="container grid">
+        <article class="feature-item">
+          <img src="anh4.jpg" alt="Low fees icon" class="icon" loading="lazy" />
+          <h3>Low fees</h3>
+          <p>Zero gas and the lowest trading fees in the industry.</p>
+        </article>
+        <article class="feature-item">
+          <img src="anh1.jpg" alt="High leverage icon" class="icon" loading="lazy" />
+          <h3>Up to 40x leverage</h3>
+          <p>Trade with conviction to maximize capital efficiency.</p>
+        </article>
+        <article class="feature-item">
+          <img src="anh2.jpg" alt="Transparency icon" class="icon" loading="lazy" />
+          <h3>Fully Transparent</h3>
+          <p>Onchain order book. All trades & liquidations on Hyperliquid L1.</p>
+        </article>
+        <article class="feature-item">
+          <img src="anh3.jpg" alt="Seamless trading icon" class="icon" loading="lazy" />
+          <h3>Seamless Experience</h3>
+          <p>One-click trading. No approvals needed.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- Live Prices -->
+    <section class="live-prices">
+      <div class="container">
+        <h2>Live Crypto Prices</h2>
+        <div class="prices-grid">
+          <div class="price-card">
+            <span class="coin">Bitcoin (BTC)</span>
+            <span class="price" id="price-btc">Loading...</span>
+          </div>
+          <div class="price-card">
+            <span class="coin">Ethereum (ETH)</span>
+            <span class="price" id="price-eth">Loading...</span>
+          </div>
+          <div class="price-card">
+            <span class="coin">Solana (SOL)</span>
+            <span class="price" id="price-sol">Loading...</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Script lấy giá (đã cải thiện một chút) -->
+  <script>
+    async function fetchPrices() {
+      try {
+        const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana&vs_currencies=usd');
+        if (!response.ok) throw new Error('Network error');
+        const data = await response.json();
+
+        const format = num => '$' + Number(num).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+        document.getElementById('price-btc').textContent = format(data.bitcoin.usd);
+        document.getElementById('price-eth').textContent = format(data.ethereum.usd);
+        document.getElementById('price-sol').textContent = format(data.solana.usd);
+      } catch (error) {
+        console.error('Lỗi lấy giá:', error);
+        document.querySelectorAll('.price').forEach(el => el.textContent = 'Error');
+      }
+    }
+
+    fetchPrices();
+    setInterval(fetchPrices, 30000); // cập nhật mỗi 30s thay vì 60s
+  </script>
+</body>
+</html>
